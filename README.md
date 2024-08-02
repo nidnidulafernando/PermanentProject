@@ -8,17 +8,6 @@ This project is a Flutter application for managing and displaying vehicle servic
 - **Vendor Page**: Displays a list of vendors.
 - **Store Details Page**: Displays detailed information about a selected store, including coupons and general information.
 
-## Screenshots
-
-## Explore Screen
-### Coupon Page
-![Coupon Page](screenshots/coupon_page.png)
-
-### Vendor Page
-![Vendor Page](screenshots/vendor_page.png)
-
-## Vendor Screen 
-![Store Details Page](screenshots/store_details_page.png)
 
 ## Categories in the Coupon Page
 
