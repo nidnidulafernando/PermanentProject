@@ -109,7 +109,7 @@ class _StoreDetailsPageState extends State<StoreDetailsPage> {
                     // Category Selector
                     Center(
                       child: Container(
-                        height: 70, // Adjust height as needed
+                        height: 70,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
                           child: ListView.builder(
@@ -204,6 +204,7 @@ class _StoreDetailsPageState extends State<StoreDetailsPage> {
                 padding: const EdgeInsets.only(top: 13),
                 child: Container(
                   decoration: BoxDecoration(
+                    shape: BoxShape.circle,
                     borderRadius: BorderRadius.circular(50),
                     boxShadow: [
                       BoxShadow(

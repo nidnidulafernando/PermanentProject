@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
 
+/// Throws when there's no shared pref data to fetch
+class CacheException implements Exception {}
+
+/// Exception for the HTTP requests from Dio
 class ServerException implements Exception {
   final String errorMessage;
   final bool unexpectedError;
@@ -25,9 +29,7 @@ class ServerException implements Exception {
       case DioExceptionType.badResponse:
         return _handleStatusCode(dioError.response);
       case DioExceptionType.unknown:
-        return dioError.message?.contains('SocketException') == true
-            ? "Socket exception"
-            : "Unexpected error";
+        return dioError.message?.contains('SocketException') == true ? "Socket exception" : "Unexpected error";
       default:
         return "Something went wrong";
     }
@@ -66,23 +68,12 @@ class ServerException implements Exception {
         return "The requested resource is no longer available.";
       case 415:
         return "Unsupported media type.";
-      case 422:
-        return _getDataValidationErrorMessage(response) ?? "Data validation failed.";
       case 429:
         return "Too many requests.";
       case 500:
         return "Internal server error.";
       default:
         return "Unhandled status code: $statusCode.";
-    }
-  }
-
-  static String? _getDataValidationErrorMessage(Response? response) {
-    try {
-      Map<String, dynamic> res = response?.data as Map<String, dynamic>;
-      return res["message"];
-    } catch (e) {
-      return null;
     }
   }
 

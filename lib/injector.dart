@@ -2,7 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'core/network/network_info.dart';
+import 'features/explore_screen/data/datasource/coupon_local_data_source.dart';
 import 'features/explore_screen/data/datasource/coupon_vendor_remote_datasource.dart';
+import 'features/explore_screen/data/datasource/vendor_local_data_source.dart';
 import 'features/explore_screen/data/respository/coupon_repository_impl.dart';
 import 'features/explore_screen/data/respository/vendor_repository_impl.dart';
 import 'features/explore_screen/domain/repository/coupon_repository.dart';
@@ -11,6 +13,7 @@ import 'features/explore_screen/domain/usecase/coupon_usecase.dart';
 import 'features/explore_screen/domain/usecase/vendor_usecase.dart';
 import 'features/explore_screen/presentation/bloc/coupon/coupon_bloc.dart';
 import 'features/explore_screen/presentation/bloc/vendor/vendor_bloc.dart';
+import 'features/vendore_profile_screen/data/datasource/store_local_data_source.dart';
 import 'features/vendore_profile_screen/data/datasource/store_remote_datasource.dart';
 import 'features/vendore_profile_screen/data/repository/store_repository_impl.dart';
 import 'features/vendore_profile_screen/domain/repository/store_repository.dart';
@@ -27,9 +30,15 @@ Future<void> setup() async {
   sl.registerLazySingleton<InternetConnectionChecker>(() => InternetConnectionChecker());
   sl.registerLazySingleton<DioClient>(() => DioClient(auth: sl(), public: sl()));
 
-  // Data Sources
+  //Remote Data Sources
   sl.registerLazySingleton<CouponVendorRemoteDataSource>(() => CouponVendorRemoteDataSourceImpl(dioClient: sl()));
   sl.registerLazySingleton<StoreRemoteDataSource>(() => RemoteDataSourceImpl( dioClient: sl()));
+
+  //Local Data Sources
+  sl.registerLazySingleton<StoreLocalDataSource>(() => StoreLocalDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<VendorLocalDataSource>(() => VendorLocalDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<CouponLocalDataSource>(() => CouponLocalDataSourceImpl(sharedPreferences: sl()));
+
 
   // Repository
   sl.registerLazySingleton<CouponRepository>(() => CouponRepositoryImpl(couponRemoteDataSource: sl(), networkInfo: sl()));
