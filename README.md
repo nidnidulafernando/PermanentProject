@@ -1,16 +1,62 @@
-# permanent_project
+# Vehicle Services App
 
-A new Flutter project.
+This project is a Flutter application for managing and displaying vehicle services, including coupons and vendor information. The application features a main page with tabs for coupons and vendors, detailed views for each category, and pagination for loading more data.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Coupon Page**: Displays a list of coupons categorized based on keywords in their descriptions.
+- **Vendor Page**: Displays a list of vendors.
+- **Store Details Page**: Displays detailed information about a selected store, including coupons and general information.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Explore Screen
+### Coupon Page
+![Coupon Page](screenshots/coupon_page.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Vendor Page
+![Vendor Page](screenshots/vendor_page.png)
+
+## Vendor Screen 
+![Store Details Page](screenshots/store_details_page.png)
+
+## Categories in the Coupon Page
+
+The categories in the coupon page are dynamically created based on keywords found in the description of each coupon. As the API response does not include categories, the application uses the following logic to categorize coupons:
+
+### Categories and Keywords
+
+- **View All**:
+  - Includes all coupons.
+
+- **Car Detailing**:
+  - Keywords: `detail`, `detailing`, `ceramic`, `wax`
+
+- **Car Wash**:
+  - Keywords: `wash`, `vacuum`, `steam`
+
+- **Discount Packages**:
+  - Keywords: `discount`, `off`, `deal`
+
+- **Miscellaneous**:
+  - Contains any coupons that don't match the other categories.
+
+### Example Code for Categorization
+
+```dart
+List<CouponDataEntity> categorizeCoupons(List<CouponDataEntity> coupons, int selectedCategoryIndex) {
+  if (selectedCategoryIndex == 1) {
+    return coupons.where((coupon) =>
+        coupon.description.contains(RegExp(r'\b(detail|detailing|ceramic|wax)\b', caseSensitive: false))).toList();
+  } else if (selectedCategoryIndex == 2) {
+    return coupons.where((coupon) =>
+        coupon.description.contains(RegExp(r'\b(wash|vacuum|steam)\b', caseSensitive: false))).toList();
+  } else if (selectedCategoryIndex == 3) {
+    return coupons.where((coupon) =>
+        coupon.description.contains(RegExp(r'\b(discount|off|deal)\b', caseSensitive: false))).toList();
+  } else if (selectedCategoryIndex == 4) {
+    return coupons.where((coupon) =>
+    !coupon.description.contains(RegExp(r'\b(detail|detailing|ceramic|wax|wash|vacuum|steam|discount|off|deal)\b', caseSensitive: false))).toList();
+  }
+  return coupons;
+}
